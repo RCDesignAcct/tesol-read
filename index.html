@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jim's Lopburi Adventure - Interactive Thai Story</title>
+    <style>
+        * {
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .story-container {
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(20px); 
+            border-radius: 25px; 
+            padding: 40px; 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .story-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .story-title {
+            font-size: 2em; 
+            font-weight: 700; 
+            color: #2c3e50; 
+            margin-bottom: 10px;
+        }
+        
+        .story-subtitle {
+            color: #e74c3c; 
+            font-size: 1.2em; 
+            font-weight: 600;
+        }
+        
+        .audio-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); 
+            border-radius: 15px; 
+            padding: 20px; 
+            text-align: center; 
+            margin-bottom: 30px;
+        }
+        
+        .control-buttons {
+            display: flex; 
+            gap: 10px; 
+            justify-content: center; 
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .control-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            border-radius: 25px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            font-size: 0.95em;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .story-content {
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 30px; 
+            margin-bottom: 30px;
+        }
+        
+        .column {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); 
+            border-radius: 20px; 
+            padding: 25px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); 
+            position: relative; 
+            overflow: hidden;
+        }
+        
+        .thai-column::before {
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 4px; 
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+        
+        .english-column::before {
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 4px; 
+            background: linear-gradient(90deg, #3498db, #2980b9);
+        }
+        
+        .column-title {
+            font-size: 1.4em; 
+            font-weight: 700; 
+            margin-bottom: 20px; 
+            text-align: center; 
+            padding-bottom: 10px; 
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .thai-column .column-title {
+            color: #e74c3c;
+        }
+        
+        .english-column .column-title {
+            color: #3498db;
+        }
+        
+        .sentence {
+            margin-bottom: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            line-height: 1.6; 
+            border-left: 3px solid transparent;
+        }
+        
+        .sentence:hover {
+            background: rgba(52, 152, 219, 0.1); 
+            transform: translateX(5px); 
+            border-left: 3px solid #3498db;
+        }
+        
+        .sentence.highlighted {
+            background: rgba(241, 196, 15, 0.4) !important; 
+            border-left: 4px solid #f1c40f !important; 
+            transform: translateX(8px) !important; 
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3) !important;
+        }
+        
+        .thai-text {
+            font-size: 1.1em; 
+            font-weight: 500;
+        }
+        
+        .english-text {
+            font-size: 1em;
+        }
+
+        .course-notice {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #0c5460;
+        }
+        
+        @media (max-width: 768px) {
+            .story-container {
+                padding: 20px; 
+                margin: 10px;
+            }
+            
+            .story-content {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            
+            .control-buttons {
+                flex-direction: column; 
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="story-container">
+        <div class="course-notice">
+            💡 <strong>This content is part of a Thai language course.</strong><br>
+            For the complete learning experience with explanations, practice exercises, and structured progression, please access through the official course platform.
+        </div>
+
+        <div class="story-header">
+            <h1 class="story-title">Jim's Day Trip to Lopburi</h1>
+            <div class="story-subtitle">เที่ยวลพบุรีในหนึ่งวัน</div>
+        </div>
+
+        <div class="audio-section">
+            <p style="margin-bottom: 15px; color: #666;">🎧 Audio coming soon! Click sentences below to highlight and practice reading.</p>
+            <div class="control-buttons">
+                <button class="control-btn" onclick="resetHighlight()">🔄 Reset Highlighting</button>
+                <button class="control-btn" onclick="highlightAll()">✨ Show All Highlights</button>
+            </div>
+        </div>
+
+        <div class="story-content">
+            <div class="column thai-column">
+                <h3 class="column-title">ภาษาไทย (Click to highlight)</h3>
+                <div class="sentence thai-text" data-sentence="1" onclick="highlightSentence(1)">จิมตัดสินใจไปลพบุรีด้วยงบ 500 บาท</div>
+                <div class="sentence thai-text" data-sentence="2" onclick="highlightSentence(2)">เขานั่งรถไฟจากกรุงเทพฯ ราคา 50 บาท ใช้เวลา 2 ชั่วโมงครึ่ง</div>
+                <div class="sentence thai-text" data-sentence="3" onclick="highlightSentence(3)">ที่ลพบุรีจิมเดินไปวัดพระศรีรัตนมหาธาตุ ค่าเข้า 10 บาท</div>
+                <div class="sentence thai-text" data-sentence="4" onclick="highlightSentence(4)">วัดสวยมาก มีประวัติศาสตร์เก่าแก่</div>
+                <div class="sentence thai-text" data-sentence="5" onclick="highlightSentence(5)">หลังจากนั้นเขากินก๋วยเตี๋ยวเป็ดรสเจ็บ 55 บาท อร่อยมาก</div>
+                <div class="sentence thai-text" data-sentence="6" onclick="highlightSentence(6)">ที่พระปรางค์สามยอดมีลิงเยอะมาก</div>
+                <div class="sentence thai-text" data-sentence="7" onclick="highlightSentence(7)">จิมซื้อปีโป้ 60 บาทไปให้ลิงกิน</div>
+                <div class="sentence thai-text" data-sentence="8" onclick="highlightSentence(8)">ลิงจิกหัวจิม! เจ็บแต่สนุก</div>
+                <div class="sentence thai-text" data-sentence="9" onclick="highlightSentence(9)">เขาดื่มกาแฟ 50 บาท และเข้าพิพิธภัณฑ์ 30 บาท</div>
+                <div class="sentence thai-text" data-sentence="10" onclick="highlightSentence(10)">ดูของโบราณมากมาย</div>
+                <div class="sentence thai-text" data-sentence="11" onclick="highlightSentence(11)">เย็นแล้วนั่งรถไฟกลับ 50 บาท</div>
+                <div class="sentence thai-text" data-sentence="12" onclick="highlightSentence(12)">ใช้เงินทั้งหมด 467 บาท เหลือ 33 บาท</div>
+                <div class="sentence thai-text" data-sentence="13" onclick="highlightSentence(13)">จิมเที่ยวลพบุรีสนุกมาก!</div>
+            </div>
+
+            <div class="column english-column">
+                <h3 class="column-title">English</h3>
+                <div class="sentence english-text" data-sentence="1" onclick="highlightSentence(1)">Jim decided to visit Lopburi with a budget of 500 baht.</div>
+                <div class="sentence english-text" data-sentence="2" onclick="highlightSentence(2)">He took the train from Bangkok for 50 baht, taking 2.5 hours.</div>
+                <div class="sentence english-text" data-sentence="3" onclick="highlightSentence(3)">In Lopburi, Jim walked to Wat Phra Sri Rattana Mahathat. The entrance fee was 10 baht.</div>
+                <div class="sentence english-text" data-sentence="4" onclick="highlightSentence(4)">The temple was very beautiful with ancient history.</div>
+                <div class="sentence english-text" data-sentence="5" onclick="highlightSentence(5)">After that, he ate spicy duck noodles for 55 baht. Very delicious!</div>
+                <div class="sentence english-text" data-sentence="6" onclick="highlightSentence(6)">At Phra Prang Sam Yot, there were many monkeys.</div>
+                <div class="sentence english-text" data-sentence="7" onclick="highlightSentence(7)">Jim bought Pocky for 60 baht to feed the monkeys.</div>
+                <div class="sentence english-text" data-sentence="8" onclick="highlightSentence(8)">A monkey pinched Jim's head! It hurt but was fun.</div>
+                <div class="sentence english-text" data-sentence="9" onclick="highlightSentence(9)">He drank coffee for 50 baht and entered the museum for 30 baht.</div>
+                <div class="sentence english-text" data-sentence="10" onclick="highlightSentence(10)">He saw many ancient artifacts.</div>
+                <div class="sentence english-text" data-sentence="11" onclick="highlightSentence(11)">In the evening, he took the train back for 50 baht.</div>
+                <div class="sentence english-text" data-sentence="12" onclick="highlightSentence(12)">He spent 467 baht total, with 33 baht remaining.</div>
+                <div class="sentence english-text" data-sentence="13" onclick="highlightSentence(13)">Jim had a very fun trip to Lopburi!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSentence = 0;
+
+        function highlightSentence(sentenceNum) {
+            // Remove all highlights
+            document.querySelectorAll('.sentence').forEach(el => {
+                el.classList.remove('highlighted');
+            });
+            
+            // Add highlight to both Thai and English sentences with matching data-sentence
+            const matchingSentences = document.querySelectorAll(`[data-sentence="${sentenceNum}"]`);
+            
+            matchingSentences.forEach(el => {
+                el.classList.add('highlighted');
+            });
+            
+            currentSentence = sentenceNum;
+        }
+
+        function resetHighlight() {
+            document.querySelectorAll('.sentence').forEach(el => {
+                el.classList.remove('highlighted');
+            });
+            currentSentence = 0;
+        }
+
+        function highlightAll() {
+            let count = 1;
+            const interval = setInterval(() => {
+                highlightSentence(count);
+                count++;
+                if (count > 13) {
+                    clearInterval(interval);
+                    setTimeout(resetHighlight, 1000);
+                }
+            }, 500);
+        }
+
+        // Check if loaded in iframe
+        if (window.top !== window.self) {
+            // Remove the course notice if embedded in iframe
+            const notice = document.querySelector('.course-notice');
+            if (notice) notice.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
