@@ -81,6 +81,7 @@
             box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
         }
         
+        /* Desktop Layout */
         .story-content {
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -175,22 +176,88 @@
             text-align: center;
             color: #0c5460;
         }
-        
+
+        /* Mobile-specific layout */
         @media (max-width: 768px) {
             .story-container {
                 padding: 20px; 
                 margin: 10px;
             }
             
+            .story-title {
+                font-size: 1.5em;
+            }
+            
+            .story-subtitle {
+                font-size: 1em;
+            }
+            
+            /* Mobile: Sentence-by-sentence pairing instead of columns */
             .story-content {
-                grid-template-columns: 1fr; 
-                gap: 20px;
+                display: block;
+                gap: 0;
+            }
+            
+            .column {
+                display: none; /* Hide desktop columns on mobile */
+            }
+            
+            /* Show mobile layout instead */
+            .mobile-sentence-pairs {
+                display: block;
+            }
+            
+            .sentence-pair {
+                background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                border-radius: 15px;
+                margin-bottom: 20px;
+                padding: 20px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .sentence-pair.highlighted {
+                background: linear-gradient(135deg, rgba(241, 196, 15, 0.2) 0%, rgba(241, 196, 15, 0.1) 100%);
+                border: 2px solid #f1c40f;
+                box-shadow: 0 8px 25px rgba(241, 196, 15, 0.3);
+            }
+            
+            .mobile-thai {
+                background: rgba(231, 76, 60, 0.05);
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 10px;
+                border-left: 4px solid #e74c3c;
+                font-size: 1.1em;
+                font-weight: 500;
+                cursor: pointer;
+            }
+            
+            .mobile-english {
+                background: rgba(52, 152, 219, 0.05);
+                padding: 15px;
+                border-radius: 10px;
+                border-left: 4px solid #3498db;
+                font-size: 1em;
+                cursor: pointer;
+            }
+            
+            .mobile-thai:hover, .mobile-english:hover {
+                background: rgba(52, 152, 219, 0.1);
             }
             
             .control-buttons {
                 flex-direction: column; 
                 align-items: center;
             }
+            
+            .control-btn {
+                width: 200px;
+            }
+        }
+
+        /* Hide mobile layout on desktop */
+        .mobile-sentence-pairs {
+            display: none;
         }
     </style>
 </head>
@@ -214,6 +281,7 @@
             </div>
         </div>
 
+        <!-- Desktop Layout: Side-by-side columns -->
         <div class="story-content">
             <div class="column thai-column">
                 <h3 class="column-title">ภาษาไทย (Click to highlight)</h3>
@@ -249,20 +317,86 @@
                 <div class="sentence english-text" data-sentence="13" onclick="highlightSentence(13)">Jim had a very fun trip to Lopburi!</div>
             </div>
         </div>
+
+        <!-- Mobile Layout: Sentence pairs -->
+        <div class="mobile-sentence-pairs">
+            <div class="sentence-pair" data-sentence="1" onclick="highlightSentenceMobile(1)">
+                <div class="mobile-thai">จิมตัดสินใจไปลพบุรีด้วยงบ 500 บาท</div>
+                <div class="mobile-english">Jim decided to visit Lopburi with a budget of 500 baht.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="2" onclick="highlightSentenceMobile(2)">
+                <div class="mobile-thai">เขานั่งรถไฟจากกรุงเทพฯ ราคา 50 บาท ใช้เวลา 2 ชั่วโมงครึ่ง</div>
+                <div class="mobile-english">He took the train from Bangkok for 50 baht, taking 2.5 hours.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="3" onclick="highlightSentenceMobile(3)">
+                <div class="mobile-thai">ที่ลพบุรีจิมเดินไปวัดพระศรีรัตนมหาธาตุ ค่าเข้า 10 บาท</div>
+                <div class="mobile-english">In Lopburi, Jim walked to Wat Phra Sri Rattana Mahathat. The entrance fee was 10 baht.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="4" onclick="highlightSentenceMobile(4)">
+                <div class="mobile-thai">วัดสวยมาก มีประวัติศาสตร์เก่าแก่</div>
+                <div class="mobile-english">The temple was very beautiful with ancient history.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="5" onclick="highlightSentenceMobile(5)">
+                <div class="mobile-thai">หลังจากนั้นเขากินก๋วยเตี๋ยวเป็ดรสเจ็บ 55 บาท อร่อยมาก</div>
+                <div class="mobile-english">After that, he ate spicy duck noodles for 55 baht. Very delicious!</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="6" onclick="highlightSentenceMobile(6)">
+                <div class="mobile-thai">ที่พระปรางค์สามยอดมีลิงเยอะมาก</div>
+                <div class="mobile-english">At Phra Prang Sam Yot, there were many monkeys.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="7" onclick="highlightSentenceMobile(7)">
+                <div class="mobile-thai">จิมซื้อปีโป้ 60 บาทไปให้ลิงกิน</div>
+                <div class="mobile-english">Jim bought Pocky for 60 baht to feed the monkeys.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="8" onclick="highlightSentenceMobile(8)">
+                <div class="mobile-thai">ลิงจิกหัวจิม! เจ็บแต่สนุก</div>
+                <div class="mobile-english">A monkey pinched Jim's head! It hurt but was fun.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="9" onclick="highlightSentenceMobile(9)">
+                <div class="mobile-thai">เขาดื่มกาแฟ 50 บาท และเข้าพิพิธภัณฑ์ 30 บาท</div>
+                <div class="mobile-english">He drank coffee for 50 baht and entered the museum for 30 baht.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="10" onclick="highlightSentenceMobile(10)">
+                <div class="mobile-thai">ดูของโบราณมากมาย</div>
+                <div class="mobile-english">He saw many ancient artifacts.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="11" onclick="highlightSentenceMobile(11)">
+                <div class="mobile-thai">เย็นแล้วนั่งรถไฟกลับ 50 บาท</div>
+                <div class="mobile-english">In the evening, he took the train back for 50 baht.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="12" onclick="highlightSentenceMobile(12)">
+                <div class="mobile-thai">ใช้เงินทั้งหมด 467 บาท เหลือ 33 บาท</div>
+                <div class="mobile-english">He spent 467 baht total, with 33 baht remaining.</div>
+            </div>
+            
+            <div class="sentence-pair" data-sentence="13" onclick="highlightSentenceMobile(13)">
+                <div class="mobile-thai">จิมเที่ยวลพบุรีสนุกมาก!</div>
+                <div class="mobile-english">Jim had a very fun trip to Lopburi!</div>
+            </div>
+        </div>
     </div>
 
     <script>
         let currentSentence = 0;
 
         function highlightSentence(sentenceNum) {
-            // Remove all highlights
+            // Desktop highlighting
             document.querySelectorAll('.sentence').forEach(el => {
                 el.classList.remove('highlighted');
             });
             
-            // Add highlight to both Thai and English sentences with matching data-sentence
             const matchingSentences = document.querySelectorAll(`[data-sentence="${sentenceNum}"]`);
-            
             matchingSentences.forEach(el => {
                 el.classList.add('highlighted');
             });
@@ -270,8 +404,22 @@
             currentSentence = sentenceNum;
         }
 
+        function highlightSentenceMobile(sentenceNum) {
+            // Mobile highlighting
+            document.querySelectorAll('.sentence-pair').forEach(el => {
+                el.classList.remove('highlighted');
+            });
+            
+            const targetPair = document.querySelector(`.sentence-pair[data-sentence="${sentenceNum}"]`);
+            if (targetPair) {
+                targetPair.classList.add('highlighted');
+            }
+            
+            currentSentence = sentenceNum;
+        }
+
         function resetHighlight() {
-            document.querySelectorAll('.sentence').forEach(el => {
+            document.querySelectorAll('.sentence, .sentence-pair').forEach(el => {
                 el.classList.remove('highlighted');
             });
             currentSentence = 0;
@@ -280,7 +428,11 @@
         function highlightAll() {
             let count = 1;
             const interval = setInterval(() => {
-                highlightSentence(count);
+                if (window.innerWidth <= 768) {
+                    highlightSentenceMobile(count);
+                } else {
+                    highlightSentence(count);
+                }
                 count++;
                 if (count > 13) {
                     clearInterval(interval);
@@ -291,7 +443,6 @@
 
         // Check if loaded in iframe
         if (window.top !== window.self) {
-            // Remove the course notice if embedded in iframe
             const notice = document.querySelector('.course-notice');
             if (notice) notice.style.display = 'none';
         }
